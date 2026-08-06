@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "YOLO Coffee Menu"
+description = "A premium Persian-first RTL digital QR menu for YOLO specialty coffee shop. Mobile-first, with Persian typography, RTL layout, dark mode, category filtering, search, and animated product cards. No backend or ordering — pure premium menu experience."
+version = "1.0.0"
+id = "artifacts/yolo-menu"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 25125
+
+[services.development]
+run = "pnpm --filter @workspace/yolo-menu run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/yolo-menu", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/yolo-menu/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "25125"
+BASE_PATH = "/"

@@ -1,0 +1,237 @@
+You are a senior product designer, UX architect and full-stack engineer.
+
+Build a production-ready Persian-first RTL digital QR menu application for a premium specialty coffee shop called "YOLO".
+
+Important:
+Do not create a generic restaurant website.
+This is a premium digital menu experience.
+
+Start by creating the complete design system and application foundation, then build the first version of the menu.
+
+Brand:
+
+Name:
+YOLO
+
+Meaning:
+You Only Live Once
+
+Brand personality:
+
+- Warm
+- Artistic
+- Modern
+- Minimal
+- Premium
+- Friendly
+- Authentic
+- Bold
+
+Brand values:
+
+- Honesty
+- Quality
+- Living in the moment
+- Hope
+- Courage
+
+Target customers:
+
+Coffee lovers
+Business people
+Artists
+Athletes
+Professionals
+Age range 15-70
+
+The physical cafe atmosphere:
+
+- Warm ivory walls
+- Deep navy counter
+- Black furniture
+- Walnut brown details
+- Warm lighting
+- Plants
+- Modern minimal architecture
+
+Create a Persian-first experience.
+
+Language:
+- Persian default
+- Full RTL layout
+- English support architecture prepared for future
+
+------------------------------------
+
+DESIGN SYSTEM
+
+Create a complete reusable design system.
+
+Colors:
+
+Background:
+Warm Ivory
+
+Primary:
+Deep Navy
+
+Dark:
+Matte Black
+
+Accent:
+Warm Gold
+
+Secondary:
+Walnut Brown
+
+Success:
+Natural Green
+
+
+Typography:
+
+Use Persian-friendly modern typography.
+
+Primary:
+Peyda / Estedad / Morabba
+
+Create:
+
+- Display typography
+- Heading system
+- Body text
+- Small text
+- Price typography
+
+
+Create reusable components:
+
+- Button
+- Header
+- Navigation
+- Search
+- Category tabs
+- Product card
+- Badge
+- Modal
+- Drawer
+- Toast
+- Loading state
+- Empty state
+
+
+------------------------------------
+
+APPLICATION STRUCTURE
+
+Create:
+
+1. Home page
+
+Contains:
+
+- YOLO branding
+- Hero section
+- Featured drinks
+- Today's recommendation
+- Categories
+- Short brand story
+
+
+2. Menu page
+
+Create:
+
+Category navigation:
+
+- قهوه گرم
+- قهوه سرد
+- کیک و شیرینی
+- نوشیدنی‌ها
+- اسموتی
+- دمنوش
+- صبحانه
+- غذا
+- دان قهوه
+
+
+3. Product cards
+
+Each card supports:
+
+- Persian name
+- English name
+- Price
+- Description
+- Ingredients
+- Availability
+- Bestseller badge
+- Barista recommendation badge
+- New badge
+- Image placeholder
+
+
+------------------------------------
+
+UX REQUIREMENTS
+
+Mobile-first.
+
+Designed for QR scanning.
+
+Fast access.
+
+Minimal clicks.
+
+Premium feeling.
+
+Add:
+
+- Dark mode
+- Persian/English switch architecture
+- Search
+- Category filter
+- Sticky navigation
+
+
+------------------------------------
+
+ANIMATION SYSTEM
+
+Use:
+
+- Fade
+- Slide
+- Hover
+- Ripple
+- Glass effect
+- Parallax
+- Smooth transitions
+
+Keep animations elegant and premium.
+
+------------------------------------
+
+TECH REQUIREMENTS
+
+Use:
+
+React
+TypeScript
+Tailwind CSS
+Reusable components
+Clean architecture
+
+Architecture:
+
+- Use a feature-based folder structure
+- Separate UI from business logic
+- Prefer reusable components over one-off implementations
+- Avoid duplicated state (single source of truth)
+- Keep components modular and maintainable
+
+
+Do not build admin panel.
+Do not build ordering/payment.
+
+The goal is a premium Persian digital menu foundation.
