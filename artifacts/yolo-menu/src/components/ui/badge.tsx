@@ -14,8 +14,11 @@ const badgeVariants = cva(
         destructive:
           "border-transparent bg-destructive text-destructive-foreground",
         outline: "text-foreground border",
-        bestseller: "bg-yolo-gold text-yolo-navy border-transparent font-bold",
-        barista: "bg-yolo-navy text-yolo-ivory border-transparent font-bold dark:bg-yolo-navy/80",
+        // پرفروش — deep navy badge, ivory text
+        bestseller: "bg-yolo-navy text-yolo-ivory border-transparent font-bold dark:bg-yolo-ivory dark:text-yolo-navy",
+        // توصیه باریستا — slightly lighter navy
+        barista: "bg-[#2D4A7A] text-yolo-ivory border-transparent font-bold dark:bg-[#3A5C96] dark:text-white",
+        // جدید — natural green
         new: "bg-yolo-green text-white border-transparent font-bold",
       },
     },

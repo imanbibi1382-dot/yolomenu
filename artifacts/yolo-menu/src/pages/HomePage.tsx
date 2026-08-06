@@ -25,67 +25,84 @@ export default function HomePage() {
     <PageWrapper>
       <div className="flex-1 flex flex-col">
         {/* Hero Section */}
-        <section className="relative px-6 py-12 flex flex-col items-center justify-center text-center overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-b from-yolo-navy/5 to-background pointer-events-none" />
-          <motion.h1 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="text-5xl font-black text-yolo-navy dark:text-yolo-gold tracking-tighter mb-4"
+        <section className="relative px-6 py-14 flex flex-col items-center justify-center text-center overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-b from-yolo-navy/6 via-transparent to-background pointer-events-none" />
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.6, ease: 'easeOut' }}
+            className="mb-5"
           >
-            YOLO
-          </motion.h1>
-          <motion.h2 
-            initial={{ opacity: 0, y: 20 }}
+            <span className="text-6xl font-black tracking-tighter text-yolo-navy dark:text-yolo-ivory leading-none">
+              YOLO
+            </span>
+          </motion.div>
+          <motion.h2
+            initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-            className="text-xl font-bold mb-2"
+            transition={{ duration: 0.5, delay: 0.15 }}
+            className="text-xl font-bold mb-2 text-foreground"
           >
             کافه تخصصی یولو
           </motion.h2>
-          <motion.p 
-            initial={{ opacity: 0, y: 20 }}
+          <motion.p
+            initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
+            transition={{ duration: 0.5, delay: 0.25 }}
             className="text-muted-foreground text-sm max-w-[280px] leading-relaxed"
           >
             شما فقط یک بار زندگی می‌کنید، پس بهترین قهوه را بنوشید.
           </motion.p>
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.3 }}
-            className="mt-6"
+            transition={{ duration: 0.5, delay: 0.35 }}
+            className="mt-7"
           >
-            <Button className="rounded-full px-8 bg-yolo-navy text-yolo-ivory hover:bg-yolo-navy/90 dark:bg-yolo-gold dark:text-yolo-navy dark:hover:bg-yolo-gold/90" asChild>
+            <Button
+              className="rounded-full px-8 bg-yolo-navy text-yolo-ivory hover:bg-yolo-navy/85 dark:bg-yolo-ivory dark:text-yolo-navy dark:hover:bg-yolo-ivory/90 transition-colors"
+              asChild
+            >
               <Link href="/menu">مشاهده منو</Link>
             </Button>
           </motion.div>
         </section>
 
+        {/* Brand Story */}
+        <section className="mx-4 mb-6 p-5 rounded-2xl bg-yolo-navy/5 dark:bg-yolo-ivory/5 border border-yolo-navy/10 dark:border-yolo-ivory/10">
+          <p className="text-sm leading-7 text-foreground/80 text-center">
+            یولو جایی است که هر فنجان قهوه یک لحظه خاص می‌آفریند.
+            ما با بهترین دانه‌های تخصصی دنیا کار می‌کنیم و هر نوشیدنی را با دقت و عشق آماده می‌کنیم.
+            چون زندگی یک بار است، هر لحظه‌اش ارزش بهترین را دارد.
+          </p>
+        </section>
+
         {/* Categories Grid */}
-        <section className="px-4 py-6">
+        <section className="px-4 py-2 mb-2">
           <div className="flex items-center justify-between mb-4 px-2">
             <h3 className="font-bold text-lg">دسته‌بندی‌ها</h3>
+            <Link href="/menu" className="text-xs text-primary font-medium opacity-70 hover:opacity-100">
+              همه
+            </Link>
           </div>
           <div className="grid grid-cols-3 gap-3">
             {categories.map((cat, i) => {
               const Icon = iconMap[cat.icon || 'coffee'] || Coffee;
               return (
-                <motion.div 
+                <motion.div
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.3, delay: i * 0.05 }}
+                  transition={{ duration: 0.3, delay: i * 0.04 }}
                   key={cat.id}
                 >
-                  <Link 
+                  <Link
                     href={`/menu#${cat.id}`}
-                    className="flex flex-col items-center justify-center p-3 rounded-2xl bg-card border shadow-sm gap-2 hover:border-primary/50 transition-colors cursor-pointer aspect-square"
+                    className="flex flex-col items-center justify-center p-3 rounded-2xl bg-card border shadow-sm gap-2 hover:border-primary/40 hover:shadow-md transition-all cursor-pointer aspect-square"
                   >
-                    <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+                    <div className="w-10 h-10 rounded-full bg-primary/8 dark:bg-primary/15 flex items-center justify-center text-primary dark:text-primary">
                       <Icon size={20} strokeWidth={1.5} />
                     </div>
-                    <span className="text-[11px] font-medium text-center">{cat.name}</span>
+                    <span className="text-[11px] font-medium text-center leading-tight">{cat.name}</span>
                   </Link>
                 </motion.div>
               );
@@ -93,17 +110,22 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* Featured Section */}
-        <section className="px-4 py-6 mb-6">
-          <div className="flex items-center justify-between mb-4 px-2">
-            <h3 className="font-bold text-lg">پیشنهاد باریستا</h3>
-          </div>
-          <div className="flex flex-col gap-3">
-            {featuredItems.map((item, i) => (
-              <ProductCard key={item.id} item={item} index={i} />
-            ))}
-          </div>
-        </section>
+        {/* Featured / Barista picks */}
+        {featuredItems.length > 0 && (
+          <section className="px-4 py-4 mb-6">
+            <div className="flex items-center justify-between mb-4 px-2">
+              <h3 className="font-bold text-lg">پیشنهاد باریستا</h3>
+              <Link href="/menu" className="text-xs text-primary font-medium opacity-70 hover:opacity-100">
+                مشاهده همه
+              </Link>
+            </div>
+            <div className="flex flex-col gap-3">
+              {featuredItems.map((item, i) => (
+                <ProductCard key={item.id} item={item} index={i} />
+              ))}
+            </div>
+          </section>
+        )}
       </div>
     </PageWrapper>
   );

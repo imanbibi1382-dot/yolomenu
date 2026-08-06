@@ -12,6 +12,8 @@ export interface MenuItem {
   price: number;
   description: string;
   ingredients?: string;
+  image?: string;
+  tags?: string[];
   isAvailable: boolean;
   categoryId: string;
   badge?: BadgeInfo;
