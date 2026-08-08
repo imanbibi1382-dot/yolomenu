@@ -47,3 +47,9 @@ Thumbs.db
 # Replit
 .cache/
 .local/
+
+# Local build/runtime helpers
+node-portable/
+nodejs-installer.msi
+package-lock.json
+*.log

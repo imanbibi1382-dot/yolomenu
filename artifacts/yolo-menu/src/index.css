@@ -52,12 +52,9 @@
 
 /* ── Light Mode ────────────────────────────────────────── */
 :root {
-  /* Primary Background: Warm Ivory #F4EFE6 → hsl(38,39%,93%) */
   --background: 38 39% 93%;
-  /* Text: Soft Black #111111 */
   --foreground: 0 0% 7%;
 
-  /* Cards: Pure White #FFFFFF */
   --card: 0 0% 100%;
   --card-foreground: 0 0% 7%;
   --card-border: 38 20% 88%;
@@ -66,11 +63,9 @@
   --popover-foreground: 0 0% 7%;
   --popover-border: 38 20% 85%;
 
-  /* Primary Brand: Deep Navy #17263D → hsl(216,45%,17%) */
   --primary: 216 45% 17%;
   --primary-foreground: 38 39% 93%;
 
-  /* Secondary: slightly lighter navy */
   --secondary: 216 30% 32%;
   --secondary-foreground: 38 39% 93%;
 
@@ -86,22 +81,23 @@
   --border: 38 18% 86%;
   --input: 38 18% 86%;
   --ring: 216 45% 17%;
+
+  --card-shadow: 0 1px 3px 0 rgba(23,38,61,0.06), 0 1px 2px 0 rgba(23,38,61,0.04);
 }
 
 /* ── Dark Mode ─────────────────────────────────────────── */
 .dark {
-  --background: 0 0% 7%;
+  --background: 218 20% 8%;
   --foreground: 38 39% 93%;
 
-  --card: 0 0% 11%;
+  --card: 218 15% 12%;
   --card-foreground: 38 39% 93%;
-  --card-border: 0 0% 18%;
+  --card-border: 218 15% 16%;
 
-  --popover: 0 0% 11%;
+  --popover: 218 15% 12%;
   --popover-foreground: 38 39% 93%;
-  --popover-border: 0 0% 18%;
+  --popover-border: 218 15% 16%;
 
-  /* In dark mode primary = ivory so buttons look right */
   --primary: 38 39% 88%;
   --primary-foreground: 216 45% 17%;
 
@@ -117,9 +113,11 @@
   --destructive: 0 62% 30%;
   --destructive-foreground: 38 39% 93%;
 
-  --border: 0 0% 18%;
-  --input: 0 0% 18%;
+  --border: 218 15% 16%;
+  --input: 218 15% 16%;
   --ring: 38 39% 88%;
+
+  --card-shadow: 0 1px 3px 0 rgba(0,0,0,0.3);
 }
 
 @layer base {
@@ -127,14 +125,19 @@
     @apply border-border;
   }
   body {
-    @apply font-sans antialiased bg-background text-foreground;
+    @apply font-sans antialiased bg-background text-foreground transition-colors duration-300;
   }
+}
 
+@layer utilities {
   .no-scrollbar::-webkit-scrollbar {
     display: none;
   }
   .no-scrollbar {
     -ms-overflow-style: none;
     scrollbar-width: none;
+  }
+  .card-shadow {
+    box-shadow: var(--card-shadow);
   }
 }

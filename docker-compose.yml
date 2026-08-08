@@ -1,0 +1,10 @@
+version: '3.8'
+
+services:
+  builder:
+    build: .
+    volumes:
+      - ./dist:/app/artifacts/yolo-menu/dist
+    environment:
+      - PORT=25125
+      - BASE_PATH=/

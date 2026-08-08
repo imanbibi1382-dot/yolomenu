@@ -6,15 +6,27 @@ import { ThemeProvider } from '@/lib/theme-provider';
 
 import HomePage from '@/pages/HomePage';
 import MenuPage from '@/pages/MenuPage';
+import AdminPage from '@/pages/AdminPage';
 import NotFoundPage from '@/pages/NotFoundPage';
 
 const queryClient = new QueryClient();
+const ADMIN_HOST_PREFIX = 'x9q-vault-71';
+const ADMIN_PATH = '/x9q-vault-71-admin-panel';
 
 function Router() {
+  const isAdminHost =
+    typeof window !== 'undefined' &&
+    window.location.hostname.startsWith(ADMIN_HOST_PREFIX);
+
+  if (isAdminHost) {
+    return <AdminPage />;
+  }
+
   return (
     <Switch>
       <Route path="/" component={HomePage} />
       <Route path="/menu" component={MenuPage} />
+      <Route path={ADMIN_PATH} component={AdminPage} />
       <Route component={NotFoundPage} />
     </Switch>
   );
