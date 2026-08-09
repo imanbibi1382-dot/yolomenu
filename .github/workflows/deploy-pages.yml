@@ -40,7 +40,9 @@ jobs:
         env:
           PORT: 25125
           BASE_PATH: /yolomenu/
-        run: pnpm --filter @workspace/yolo-menu run build
+        run: |
+          cd artifacts/yolo-menu
+          pnpm run build
 
       - name: Add SPA fallback
         run: cp artifacts/yolo-menu/dist/public/index.html artifacts/yolo-menu/dist/public/404.html
