@@ -7,6 +7,7 @@ import { useState, useMemo, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { useLocation } from 'wouter';
 import { cn } from '@/lib/utils';
+import { filterMenuItems, getCategoryItems } from '@/lib/menuFilters';
 
 export default function MenuPage() {
   const [searchQuery, setSearchQuery] = useState('');
@@ -36,17 +37,7 @@ export default function MenuPage() {
     }
   }, [location]);
 
-  const filteredItems = useMemo(() => {
-    if (!searchQuery.trim()) return menuItems;
-
-    const query = searchQuery.toLowerCase().trim();
-    return menuItems.filter(item =>
-      item.name.toLowerCase().includes(query) ||
-      item.englishName.toLowerCase().includes(query) ||
-      item.description.toLowerCase().includes(query) ||
-      (item.tags || []).some(t => t.toLowerCase().includes(query))
-    );
-  }, [searchQuery]);
+  const filteredItems = useMemo(() => filterMenuItems(menuItems, searchQuery), [menuItems, searchQuery]);
 
   const renderContent = () => {
     if (searchQuery.trim()) {
@@ -79,7 +70,7 @@ export default function MenuPage() {
     return (
       <div className="pb-8">
         {categories.map((category, index) => {
-          const categoryItems = menuItems.filter(item => item.categoryId === category.id);
+          const categoryItems = getCategoryItems(menuItems, category.id);
           if (categoryItems.length === 0) return null;
 
           return (
@@ -112,8 +103,14 @@ export default function MenuPage() {
 
   const scrollToCategory = (id: string) => {
     setActiveCategory(id);
-    categoryRefs.current[id]?.scrollIntoView({ behavior: 'smooth', block: 'start' });
     setSearchQuery('');
+
+    const nextHash = `#${id}`;
+    if (window.location.hash !== nextHash) {
+      window.history.replaceState(null, '', `${window.location.pathname}${window.location.search}${nextHash}`);
+    }
+
+    categoryRefs.current[id]?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
 
   useEffect(() => {
