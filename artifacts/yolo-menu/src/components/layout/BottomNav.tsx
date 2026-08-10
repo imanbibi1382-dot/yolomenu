@@ -1,10 +1,12 @@
 import { Home, Coffee, Search } from 'lucide-react';
-import { Link, useLocation } from 'wouter';
+import { Link, useLocation, useSearch } from 'wouter';
 import { cn } from '@/lib/utils';
 import { motion } from 'framer-motion';
 
 export function BottomNav() {
   const [location] = useLocation();
+  const [search] = useSearch();
+  const hasSearchFocus = search.includes('focus=search');
 
   const navItems = [
     { href: '/', label: 'خانه', icon: Home },
@@ -17,8 +19,8 @@ export function BottomNav() {
       <div className="bg-background/85 backdrop-blur-xl border border-border/50 shadow-[0_8px_30px_rgba(0,0,0,0.12)] dark:shadow-[0_8px_30px_rgba(0,0,0,0.4)] rounded-full h-16 flex items-center justify-around px-2">
         {navItems.map((item) => {
           const isActive = location === item.href || 
-            (item.href !== '/' && location.startsWith(item.href) && !location.includes('focus=search')) || 
-            (item.href.includes('focus=search') && location.includes('focus=search'));
+            (item.href !== '/' && location.startsWith(item.href) && !hasSearchFocus) || 
+            (item.href.includes('focus=search') && hasSearchFocus);
             
           const Icon = item.icon;
           
@@ -30,7 +32,10 @@ export function BottomNav() {
             >
               <motion.div
                 whileTap={{ scale: 0.9 }}
-                className="flex flex-col items-center justify-center w-full h-full"
+                className={cn(
+                  "flex flex-col items-center justify-center w-full h-full rounded-2xl transition-all duration-300",
+                  isActive ? 'bg-primary/10' : 'hover:bg-muted/10'
+                )}
               >
                 <Icon 
                   className={cn(

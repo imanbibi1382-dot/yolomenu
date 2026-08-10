@@ -32,11 +32,13 @@ export function Header() {
         </div>
         
         <div className="flex items-center gap-1">
-          <Button variant="ghost" size="icon" asChild className="rounded-full hover:bg-muted/60 transition-colors">
-            <Link href="/menu?focus=search" aria-label="جستجو">
-              <Search className="h-5 w-5 text-foreground/80" strokeWidth={2} />
-            </Link>
-          </Button>
+          <Link
+            href="/search"
+            aria-label="جستجو"
+            className="inline-flex h-10 w-10 items-center justify-center rounded-full hover:bg-muted/60 transition-colors"
+          >
+            <Search className="h-5 w-5 text-foreground/80" strokeWidth={2} />
+          </Link>
           <Button
             variant="ghost"
             size="icon"

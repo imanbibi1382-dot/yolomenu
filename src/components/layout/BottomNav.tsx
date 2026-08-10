@@ -5,11 +5,12 @@ import { motion } from 'framer-motion';
 
 export function BottomNav() {
   const [location] = useLocation();
+  const searchActive = location === '/search';
 
   const navItems = [
     { href: '/', label: 'خانه', icon: Home },
     { href: '/menu', label: 'منو', icon: Coffee },
-    { href: '/menu?focus=search', label: 'جستجو', icon: Search },
+    { href: '/search', label: 'جستجو', icon: Search },
   ];
 
   return (
@@ -17,10 +18,7 @@ export function BottomNav() {
       <div className="bg-background/85 backdrop-blur-xl border border-border/50 shadow-[0_8px_30px_rgba(0,0,0,0.12)] dark:shadow-[0_8px_30px_rgba(0,0,0,0.4)] rounded-full h-16 flex items-center justify-around px-2">
         {navItems.map((item) => {
           const isActive = location === item.href || 
-            (item.href !== '/' && location.startsWith(item.href) && !location.includes('focus=search')) || 
-            (item.href.includes('focus=search') && location.includes('focus=search'));
-            
-          const Icon = item.icon;
+              (item.href !== '/' && location.startsWith(item.href) && !searchActive);
           
           return (
             <Link 

@@ -5,7 +5,7 @@ import { ProductCard } from '@/components/ui/ProductCard';
 import { Search, X } from 'lucide-react';
 import { useState, useMemo, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
-import { useLocation } from 'wouter';
+import { useLocation, useSearch } from 'wouter';
 import { cn } from '@/lib/utils';
 import { filterMenuItems, getCategoryItems } from '@/lib/menuFilters';
 
@@ -17,10 +17,12 @@ export default function MenuPage() {
   const tabsRef = useRef<HTMLDivElement>(null);
 
   const [location] = useLocation();
+  const [search] = useSearch();
+  const searchMode = search.includes('focus=search');
   const searchInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    if (window.location.search.includes('focus=search')) {
+    if (searchMode) {
       setTimeout(() => {
         searchInputRef.current?.focus();
       }, 100);
@@ -35,7 +37,7 @@ export default function MenuPage() {
         }, 100);
       }
     }
-  }, [location]);
+  }, [location, search]);
 
   const filteredItems = useMemo(() => filterMenuItems(menuItems, searchQuery), [menuItems, searchQuery]);
 
@@ -145,16 +147,28 @@ export default function MenuPage() {
     <PageWrapper>
       <div className="sticky top-16 z-30 bg-background/95 backdrop-blur-xl border-b border-border shadow-sm">
         {/* Search Bar */}
+        {searchMode && (
+          <div className="px-5 pb-2">
+            <div className="rounded-2xl border border-primary/20 bg-primary/5 px-4 py-3 text-sm text-primary">
+              اکنون در حالت جستجو هستید. عبارت خود را وارد کنید تا سریع‌تر محصول مورد نظر را پیدا کنید.
+            </div>
+          </div>
+        )}
         <div className="px-5 py-3">
           <div className="relative group">
             <Search className="absolute right-4 top-1/2 -translate-y-1/2 h-4 w-4 text-primary/60 group-focus-within:text-primary transition-colors" />
             <input
               ref={searchInputRef}
               type="search"
-              placeholder="جستجوی محصول، ترکیبات..."
+              placeholder={searchMode ? 'عبارت را تایپ کنید و Enter را بزنید...' : 'جستجوی محصول، ترکیبات...'}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full h-11 pl-11 pr-11 rounded-2xl bg-card border border-border/60 focus:border-primary/50 focus:ring-1 focus:ring-primary/50 focus:bg-card transition-all text-sm outline-none placeholder:text-muted-foreground shadow-sm"
+              className={cn(
+                "w-full h-11 pl-11 pr-11 rounded-2xl bg-card border transition-all text-sm outline-none placeholder:text-muted-foreground shadow-sm",
+                searchMode
+                  ? 'border-primary/60 ring-1 ring-primary/20 bg-white'
+                  : 'border-border/60 focus:border-primary/50 focus:ring-primary/50 focus:bg-card',
+              )}
             />
             {searchQuery && (
               <button
