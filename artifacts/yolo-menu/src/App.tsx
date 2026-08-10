@@ -6,6 +6,7 @@ import { ThemeProvider } from '@/lib/theme-provider';
 
 import HomePage from '@/pages/HomePage';
 import MenuPage from '@/pages/MenuPage';
+import SearchPage from '@/pages/SearchPage';
 import AdminPage from '@/pages/AdminPage';
 import NotFoundPage from '@/pages/NotFoundPage';
 
@@ -26,6 +27,7 @@ function Router() {
     <Switch>
       <Route path="/" component={HomePage} />
       <Route path="/menu" component={MenuPage} />
+      <Route path="/search" component={SearchPage} />
       <Route path={ADMIN_PATH} component={AdminPage} />
       <Route component={NotFoundPage} />
     </Switch>

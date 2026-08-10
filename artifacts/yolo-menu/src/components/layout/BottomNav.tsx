@@ -1,17 +1,16 @@
 import { Home, Coffee, Search } from 'lucide-react';
-import { Link, useLocation, useSearch } from 'wouter';
+import { Link, useLocation } from 'wouter';
 import { cn } from '@/lib/utils';
 import { motion } from 'framer-motion';
 
 export function BottomNav() {
   const [location] = useLocation();
-  const [search] = useSearch();
-  const hasSearchFocus = search.includes('focus=search');
+  const searchActive = location === '/search';
 
   const navItems = [
     { href: '/', label: 'خانه', icon: Home },
     { href: '/menu', label: 'منو', icon: Coffee },
-    { href: '/menu?focus=search', label: 'جستجو', icon: Search },
+    { href: '/search', label: 'جستجو', icon: Search },
   ];
 
   return (
@@ -19,8 +18,7 @@ export function BottomNav() {
       <div className="bg-background/85 backdrop-blur-xl border border-border/50 shadow-[0_8px_30px_rgba(0,0,0,0.12)] dark:shadow-[0_8px_30px_rgba(0,0,0,0.4)] rounded-full h-16 flex items-center justify-around px-2">
         {navItems.map((item) => {
           const isActive = location === item.href || 
-            (item.href !== '/' && location.startsWith(item.href) && !hasSearchFocus) || 
-            (item.href.includes('focus=search') && hasSearchFocus);
+            (item.href !== '/' && location.startsWith(item.href) && !searchActive);
             
           const Icon = item.icon;
           
