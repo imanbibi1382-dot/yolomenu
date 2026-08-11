@@ -1,13 +1,58 @@
 import { useState, FormEvent } from 'react';
-import { Route, Switch } from 'wouter';
-import { Lock } from 'lucide-react';
-import { Check } from 'lucide-react';
+import { Route, Switch, Link } from 'wouter';
+import { Lock, Check, LogOut, Home, Coffee } from 'lucide-react';
 import { resetMenuItems, useEditableMenuItems } from '@/lib/menuStorage';
 import { AdminItemList } from '@/features/admin/components/AdminItemList';
 import { AdminAddItemPage } from '@/features/admin/pages/AdminAddItemPage';
 import { AdminEditItemPage } from '@/features/admin/pages/AdminEditItemPage';
 
 const ADMIN_PIN = 'yolo-1405';
+
+function AdminHeader() {
+  const handleLogout = () => {
+    window.localStorage.removeItem('yolo-admin-unlocked');
+    window.location.href = '/x9q-vault-71-admin-panel';
+  };
+
+  return (
+    <header className="sticky top-0 z-50 border-b border-border bg-background/95 backdrop-blur-md">
+      <div className="mx-auto flex h-14 w-full max-w-6xl items-center justify-between px-4 lg:px-6">
+        <div className="flex items-center gap-2">
+          <Link
+            href="/"
+            className="flex h-9 w-9 items-center justify-center rounded-lg bg-yolo-navy text-yolo-ivory transition hover:opacity-90 dark:bg-yolo-ivory dark:text-yolo-navy"
+            aria-label="بازگشت به منو"
+          >
+            <Coffee size={18} />
+          </Link>
+          <div>
+            <p className="text-xs font-bold uppercase tracking-[0.18em] text-muted-foreground">
+              YOLO Admin
+            </p>
+            <p className="text-sm font-black leading-none">پنل مدیریت</p>
+          </div>
+        </div>
+
+        <div className="flex items-center gap-2">
+          <Link
+            href="/"
+            className="flex h-9 items-center gap-1.5 rounded-lg border border-border px-3 text-xs font-bold transition hover:bg-muted"
+          >
+            <Home size={15} />
+            مشاهده منو
+          </Link>
+          <button
+            onClick={handleLogout}
+            className="flex h-9 items-center gap-1.5 rounded-lg border border-destructive/30 px-3 text-xs font-bold text-destructive transition hover:bg-destructive/5"
+          >
+            <LogOut size={15} />
+            خروج
+          </button>
+        </div>
+      </div>
+    </header>
+  );
+}
 
 function AdminMenuPage() {
   const [menuItems] = useEditableMenuItems();
@@ -23,8 +68,9 @@ function AdminMenuPage() {
 
   return (
     <main className="min-h-[100dvh] bg-background text-foreground" dir="rtl">
+      <AdminHeader />
       <AdminItemList items={menuItems} />
-      
+
       {/* Reset button - fixed at bottom right */}
       <div className="fixed bottom-6 right-6 z-40">
         <button
@@ -65,7 +111,7 @@ export default function AdminPage() {
           </div>
           <h1 className="text-3xl font-black">پنل مدیریت YOLO</h1>
           <p className="mt-3 text-sm leading-7 text-yolo-ivory/75">
-            ورود این بخش با مسیر مخفی و رمز داخلی محافظت شده است.
+            این بخش کاملاً جدا از منوی عمومی است و برای ورود نیاز به رمز دارد.
           </p>
 
           <form onSubmit={submitPin} className="mt-8 space-y-3">
@@ -77,14 +123,25 @@ export default function AdminPage() {
               }}
               type="password"
               placeholder="رمز ورود"
+              autoFocus
               className="h-12 w-full rounded-lg border border-yolo-ivory/15 bg-white/10 px-4 text-base outline-none transition focus:border-yolo-ivory"
             />
             {pinError && <p className="text-sm text-red-200">{pinError}</p>}
-            <button className="flex h-12 w-full items-center justify-center gap-2 rounded-lg bg-yolo-ivory font-bold text-yolo-navy">
+            <button className="flex h-12 w-full items-center justify-center gap-2 rounded-lg bg-yolo-ivory font-bold text-yolo-navy transition hover:bg-yolo-ivory/90">
               <Check size={18} />
-              ورود
+              ورود به پنل
             </button>
           </form>
+
+          <div className="mt-6 text-center">
+            <Link
+              href="/"
+              className="inline-flex items-center gap-1.5 text-sm text-yolo-ivory/60 transition hover:text-yolo-ivory"
+            >
+              <Home size={15} />
+              بازگشت به منوی اصلی
+            </Link>
+          </div>
         </div>
       </main>
     );
