@@ -1,45 +1,25 @@
-import { useEffect, useState } from 'react';
-import { useLocation, useRoute } from 'wouter';
+import { useState } from 'react';
 import { ChevronLeft } from 'lucide-react';
-import { Link } from 'wouter';
 import { useEditableMenuItems } from '@/lib/menuStorage';
 import { useItemForm } from '../hooks/useItemForm';
 import { AdminItemForm } from '../components/AdminItemForm';
 import { toast } from 'sonner';
 
-export function AdminEditItemPage() {
-  const [, navigate] = useLocation();
-  const base = import.meta.env.BASE_URL.replace(/\/$/, '');
-  const [match, params] = useRoute('/x9q-vault-71-admin-panel/menu/:id/edit');
+interface AdminEditItemPageProps {
+  itemId: string;
+  onDone: () => void;
+}
+
+export function AdminEditItemPage({ itemId, onDone }: AdminEditItemPageProps) {
   const [menuItems, setMenuItems] = useEditableMenuItems();
   const [isLoading, setIsLoading] = useState(false);
   const [showUnsavedDialog, setShowUnsavedDialog] = useState(false);
 
-  const itemId = params?.id as string;
   const item = menuItems.find((i) => i.id === itemId);
 
   const { values, isDirty, errors, updateField, validate, reset } = useItemForm({
     initialItem: item,
   });
-
-  useEffect(() => {
-    if (!item && match) {
-      toast.error('آیتم یافت نشد');
-      navigate(`${base}/x9q-vault-71-admin-panel/menu`);
-    }
-  }, [item, match, navigate]);
-
-  useEffect(() => {
-    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
-      if (isDirty) {
-        e.preventDefault();
-        e.returnValue = '';
-      }
-    };
-
-    window.addEventListener('beforeunload', handleBeforeUnload);
-    return () => window.removeEventListener('beforeunload', handleBeforeUnload);
-  }, [isDirty]);
 
   const handleSave = async () => {
     if (!validate()) {
@@ -67,7 +47,7 @@ export function AdminEditItemPage() {
 
       setMenuItems(nextItems);
       toast.success('آیتم با موفقیت ویرایش شد');
-      navigate(`${base}/x9q-vault-71-admin-panel/menu`);
+      onDone();
     } catch (error) {
       toast.error('خطا در ذخیره‌ی آیتم');
       console.error(error);
@@ -89,7 +69,7 @@ export function AdminEditItemPage() {
       const nextItems = menuItems.filter((i) => i.id !== itemId);
       setMenuItems(nextItems);
       toast.success('آیتم با موفقیت حذف شد');
-      navigate(`${base}/x9q-vault-71-admin-panel/menu`);
+      onDone();
     } catch (error) {
       toast.error('خطا در حذف آیتم');
       console.error(error);
@@ -102,7 +82,7 @@ export function AdminEditItemPage() {
     if (isDirty) {
       setShowUnsavedDialog(true);
     } else {
-      navigate(`${base}/x9q-vault-71-admin-panel/menu`);
+      onDone();
     }
   };
 
@@ -111,6 +91,12 @@ export function AdminEditItemPage() {
       <main className="min-h-[100dvh] flex items-center justify-center bg-background" dir="rtl">
         <div className="text-center">
           <p className="text-muted-foreground">آیتم یافت نشد</p>
+          <button
+            onClick={onDone}
+            className="mt-4 rounded-lg border border-border px-4 py-2 font-bold transition hover:bg-muted"
+          >
+            بازگشت
+          </button>
         </div>
       </main>
     );
@@ -121,12 +107,12 @@ export function AdminEditItemPage() {
       <div className="mx-auto w-full max-w-2xl px-4 py-5 lg:px-6">
         {/* Header */}
         <header className="mb-6 flex items-center gap-3 border-b border-border pb-5">
-          <Link
-            href={`${base}/x9q-vault-71-admin-panel/menu`}
+          <button
+            onClick={handleCancel}
             className="flex h-10 w-10 items-center justify-center rounded-lg border border-border transition hover:bg-muted"
           >
             <ChevronLeft size={20} />
-          </Link>
+          </button>
           <div>
             <p className="text-xs font-bold uppercase tracking-[0.18em] text-muted-foreground">
               YOLO Admin
@@ -163,7 +149,7 @@ export function AdminEditItemPage() {
                 onClick={() => {
                   setShowUnsavedDialog(false);
                   reset();
-                  navigate(`${base}/x9q-vault-71-admin-panel/menu`);
+                  onDone();
                 }}
                 className="flex-1 rounded-lg bg-destructive px-4 py-2 font-bold text-white transition hover:bg-destructive/90"
               >

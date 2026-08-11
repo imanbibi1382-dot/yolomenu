@@ -1,26 +1,16 @@
 import { MenuItem } from '@/types';
-import { Link } from 'wouter';
-import { Search, Plus, ChevronLeft } from 'lucide-react';
+import { Search, ChevronLeft } from 'lucide-react';
 import { cn, formatPrice } from '@/lib/utils';
 import { useMemo, useState } from 'react';
 import { categories } from '@/data/menuData';
 
 interface AdminItemListProps {
   items: MenuItem[];
-  onItemCount?: (count: number) => void;
+  onEdit: (id: string) => void;
 }
 
-export function AdminItemList({ items, onItemCount }: AdminItemListProps) {
+export function AdminItemList({ items, onEdit }: AdminItemListProps) {
   const [query, setQuery] = useState('');
-
-  const stats = useMemo(
-    () => ({
-      total: items.length,
-      available: items.filter((item) => item.isAvailable).length,
-      hidden: items.filter((item) => !item.isAvailable).length,
-    }),
-    [items]
-  );
 
   const filteredItems = useMemo(() => {
     const normalized = query.trim().toLowerCase();
@@ -41,58 +31,25 @@ export function AdminItemList({ items, onItemCount }: AdminItemListProps) {
   }, [items, query]);
 
   return (
-    <div className="mx-auto w-full max-w-6xl px-4 py-5 lg:px-6">
-      {/* Header */}
-      <header className="flex flex-col gap-4 border-b border-border pb-5 lg:flex-row lg:items-center lg:justify-between">
-        <div>
-          <p className="text-xs font-bold uppercase tracking-[0.18em] text-muted-foreground">
-            YOLO Admin
-          </p>
-          <h1 className="mt-1 text-2xl font-black">مدیریت منو</h1>
-        </div>
-        <div className="grid grid-cols-3 gap-2 text-center">
-          <div className="rounded-lg border border-border bg-card px-4 py-2">
-            <p className="text-lg font-black">{stats.total}</p>
-            <p className="text-xs text-muted-foreground">آیتم</p>
-          </div>
-          <div className="rounded-lg border border-border bg-card px-4 py-2">
-            <p className="text-lg font-black">{stats.available}</p>
-            <p className="text-xs text-muted-foreground">موجود</p>
-          </div>
-          <div className="rounded-lg border border-border bg-card px-4 py-2">
-            <p className="text-lg font-black">{stats.hidden}</p>
-            <p className="text-xs text-muted-foreground">ناموجود</p>
-          </div>
-        </div>
-      </header>
-
-      {/* Search and Add button */}
-      <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:items-center">
-        <div className="relative flex-1">
-          <Search className="absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-          <input
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            placeholder="جستجو در آیتم‌ها..."
-            className="h-10 w-full rounded-lg border border-border bg-background pr-9 pl-3 text-sm outline-none focus:border-primary"
-          />
-        </div>
-        <Link
-          href="/x9q-vault-71-admin-panel/menu/new"
-          className="flex h-10 items-center justify-center gap-2 rounded-lg bg-yolo-navy px-4 font-bold text-yolo-white transition hover:bg-yolo-navy/90 dark:bg-yolo-ivory dark:text-yolo-navy dark:hover:bg-yolo-ivory/90"
-        >
-          <Plus size={17} />
-          آیتم جدید
-        </Link>
+    <div className="mt-6">
+      {/* Search */}
+      <div className="relative">
+        <Search className="absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+        <input
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          placeholder="جستجو در آیتم‌ها..."
+          className="h-10 w-full rounded-lg border border-border bg-background pr-9 pl-3 text-sm outline-none focus:border-primary"
+        />
       </div>
 
       {/* Items Grid */}
-      <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+      <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {filteredItems.map((item) => (
-          <Link
+          <button
             key={item.id}
-            href={`/x9q-vault-71-admin-panel/menu/${item.id}/edit`}
-            className="group relative overflow-hidden rounded-lg border border-border bg-card transition hover:border-primary hover:shadow-md"
+            onClick={() => onEdit(item.id)}
+            className="group relative overflow-hidden rounded-lg border border-border bg-card text-right transition hover:border-primary hover:shadow-md"
           >
             <div className="aspect-square overflow-hidden bg-muted">
               {item.image ? (
@@ -139,7 +96,7 @@ export function AdminItemList({ items, onItemCount }: AdminItemListProps) {
                 </p>
               </div>
             )}
-          </Link>
+          </button>
         ))}
       </div>
 

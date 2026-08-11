@@ -29,11 +29,8 @@ function Router() {
       <Route path="/" component={HomePage} />
       <Route path="/menu" component={MenuPage} />
       <Route path="/search" component={SearchPage} />
-      {/* Admin panel routes - must be before the catch-all */}
-      <Route path={`${ADMIN_PATH}`} component={AdminPage} />
-      <Route path={`${ADMIN_PATH}/menu`} component={AdminPage} />
-      <Route path={`${ADMIN_PATH}/menu/new`} component={AdminPage} />
-      <Route path={`${ADMIN_PATH}/menu/:id/edit`} component={AdminPage} />
+      {/* Admin panel - single route, internal navigation handled by state */}
+      <Route path={`${ADMIN_PATH}*`} component={AdminPage} />
       <Route component={NotFoundPage} />
     </Switch>
   );

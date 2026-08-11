@@ -1,31 +1,19 @@
-import { useEffect, useState } from 'react';
-import { useLocation } from 'wouter';
+import { useState } from 'react';
 import { ChevronLeft } from 'lucide-react';
-import { Link } from 'wouter';
 import { useEditableMenuItems } from '@/lib/menuStorage';
 import { useItemForm } from '../hooks/useItemForm';
 import { AdminItemForm } from '../components/AdminItemForm';
 import { toast } from 'sonner';
 
-export function AdminAddItemPage() {
-  const [, navigate] = useLocation();
-  const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+interface AdminAddItemPageProps {
+  onDone: () => void;
+}
+
+export function AdminAddItemPage({ onDone }: AdminAddItemPageProps) {
   const [menuItems, setMenuItems] = useEditableMenuItems();
   const { values, isDirty, errors, updateField, validate, reset } = useItemForm({});
   const [isLoading, setIsLoading] = useState(false);
   const [showUnsavedDialog, setShowUnsavedDialog] = useState(false);
-
-  useEffect(() => {
-    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
-      if (isDirty) {
-        e.preventDefault();
-        e.returnValue = '';
-      }
-    };
-
-    window.addEventListener('beforeunload', handleBeforeUnload);
-    return () => window.removeEventListener('beforeunload', handleBeforeUnload);
-  }, [isDirty]);
 
   const handleSave = async () => {
     if (!validate()) {
@@ -49,7 +37,7 @@ export function AdminAddItemPage() {
 
       setMenuItems([cleaned, ...menuItems]);
       toast.success('آیتم جدید با موفقیت اضافه شد');
-      navigate(`${base}/x9q-vault-71-admin-panel/menu`);
+      onDone();
     } catch (error) {
       toast.error('خطا در ذخیره‌ی آیتم');
       console.error(error);
@@ -62,7 +50,7 @@ export function AdminAddItemPage() {
     if (isDirty) {
       setShowUnsavedDialog(true);
     } else {
-      navigate(`${base}/x9q-vault-71-admin-panel/menu`);
+      onDone();
     }
   };
 
@@ -71,12 +59,12 @@ export function AdminAddItemPage() {
       <div className="mx-auto w-full max-w-2xl px-4 py-5 lg:px-6">
         {/* Header */}
         <header className="mb-6 flex items-center gap-3 border-b border-border pb-5">
-          <Link
-            href={`${base}/x9q-vault-71-admin-panel/menu`}
+          <button
+            onClick={handleCancel}
             className="flex h-10 w-10 items-center justify-center rounded-lg border border-border transition hover:bg-muted"
           >
             <ChevronLeft size={20} />
-          </Link>
+          </button>
           <div>
             <p className="text-xs font-bold uppercase tracking-[0.18em] text-muted-foreground">
               YOLO Admin
@@ -111,7 +99,7 @@ export function AdminAddItemPage() {
                 onClick={() => {
                   setShowUnsavedDialog(false);
                   reset();
-                  navigate(`${base}/x9q-vault-71-admin-panel/menu`);
+                  onDone();
                 }}
                 className="flex-1 rounded-lg bg-destructive px-4 py-2 font-bold text-white transition hover:bg-destructive/90"
               >
