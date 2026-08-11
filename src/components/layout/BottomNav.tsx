@@ -30,7 +30,7 @@ export function BottomNav() {
                 whileTap={{ scale: 0.9 }}
                 className="flex flex-col items-center justify-center w-full h-full"
               >
-                <Icon 
+                <item.icon 
                   className={cn(
                     "h-5 w-5 mb-1 transition-all duration-300", 
                     isActive ? "text-primary scale-110" : "text-muted-foreground group-hover:text-foreground"

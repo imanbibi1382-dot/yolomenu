@@ -9,6 +9,7 @@ import { toast } from 'sonner';
 
 export function AdminAddItemPage() {
   const [, navigate] = useLocation();
+  const base = import.meta.env.BASE_URL.replace(/\/$/, '');
   const [menuItems, setMenuItems] = useEditableMenuItems();
   const { values, isDirty, errors, updateField, validate, reset } = useItemForm({});
   const [isLoading, setIsLoading] = useState(false);
@@ -48,7 +49,7 @@ export function AdminAddItemPage() {
 
       setMenuItems([cleaned, ...menuItems]);
       toast.success('آیتم جدید با موفقیت اضافه شد');
-      navigate('/x9q-vault-71-admin-panel/menu');
+      navigate(`${base}/x9q-vault-71-admin-panel/menu`);
     } catch (error) {
       toast.error('خطا در ذخیره‌ی آیتم');
       console.error(error);
@@ -61,7 +62,7 @@ export function AdminAddItemPage() {
     if (isDirty) {
       setShowUnsavedDialog(true);
     } else {
-      navigate('/x9q-vault-71-admin-panel/menu');
+      navigate(`${base}/x9q-vault-71-admin-panel/menu`);
     }
   };
 
@@ -71,7 +72,7 @@ export function AdminAddItemPage() {
         {/* Header */}
         <header className="mb-6 flex items-center gap-3 border-b border-border pb-5">
           <Link
-            href="/x9q-vault-71-admin-panel/menu"
+            href={`${base}/x9q-vault-71-admin-panel/menu`}
             className="flex h-10 w-10 items-center justify-center rounded-lg border border-border transition hover:bg-muted"
           >
             <ChevronLeft size={20} />

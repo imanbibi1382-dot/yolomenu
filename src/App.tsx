@@ -1,5 +1,6 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Toaster } from '@/components/ui/toaster';
+import { Toaster as SonnerToaster } from '@/components/ui/sonner';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import { Route, Switch, Router as WouterRouter } from 'wouter';
 import { ThemeProvider } from '@/lib/theme-provider';
@@ -28,7 +29,11 @@ function Router() {
       <Route path="/" component={HomePage} />
       <Route path="/menu" component={MenuPage} />
       <Route path="/search" component={SearchPage} />
-      <Route path={ADMIN_PATH} component={AdminPage} />
+      {/* Admin panel routes - must be before the catch-all */}
+      <Route path={`${ADMIN_PATH}`} component={AdminPage} />
+      <Route path={`${ADMIN_PATH}/menu`} component={AdminPage} />
+      <Route path={`${ADMIN_PATH}/menu/new`} component={AdminPage} />
+      <Route path={`${ADMIN_PATH}/menu/:id/edit`} component={AdminPage} />
       <Route component={NotFoundPage} />
     </Switch>
   );
@@ -43,6 +48,7 @@ function App() {
             <Router />
           </WouterRouter>
           <Toaster />
+          <SonnerToaster position="top-center" />
         </TooltipProvider>
       </QueryClientProvider>
     </ThemeProvider>

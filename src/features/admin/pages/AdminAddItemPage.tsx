@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useLocation, useRoute } from 'wouter';
+import { useLocation } from 'wouter';
 import { ChevronLeft } from 'lucide-react';
 import { Link } from 'wouter';
 import { useEditableMenuItems } from '@/lib/menuStorage';
@@ -7,27 +7,13 @@ import { useItemForm } from '../hooks/useItemForm';
 import { AdminItemForm } from '../components/AdminItemForm';
 import { toast } from 'sonner';
 
-export function AdminEditItemPage() {
+export function AdminAddItemPage() {
   const [, navigate] = useLocation();
   const base = import.meta.env.BASE_URL.replace(/\/$/, '');
-  const [match, params] = useRoute('/x9q-vault-71-admin-panel/menu/:id/edit');
   const [menuItems, setMenuItems] = useEditableMenuItems();
+  const { values, isDirty, errors, updateField, validate, reset } = useItemForm({});
   const [isLoading, setIsLoading] = useState(false);
   const [showUnsavedDialog, setShowUnsavedDialog] = useState(false);
-
-  const itemId = params?.id as string;
-  const item = menuItems.find((i) => i.id === itemId);
-
-  const { values, isDirty, errors, updateField, validate, reset } = useItemForm({
-    initialItem: item,
-  });
-
-  useEffect(() => {
-    if (!item && match) {
-      toast.error('آیتم یافت نشد');
-      navigate(`${base}/x9q-vault-71-admin-panel/menu`);
-    }
-  }, [item, match, navigate]);
 
   useEffect(() => {
     const handleBeforeUnload = (e: BeforeUnloadEvent) => {
@@ -61,37 +47,11 @@ export function AdminEditItemPage() {
         tags: (values.tags || []).map((t) => t.trim()).filter(Boolean),
       };
 
-      const nextItems = menuItems.map((i) =>
-        i.id === cleaned.id ? cleaned : i
-      );
-
-      setMenuItems(nextItems);
-      toast.success('آیتم با موفقیت ویرایش شد');
+      setMenuItems([cleaned, ...menuItems]);
+      toast.success('آیتم جدید با موفقیت اضافه شد');
       navigate(`${base}/x9q-vault-71-admin-panel/menu`);
     } catch (error) {
       toast.error('خطا در ذخیره‌ی آیتم');
-      console.error(error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const handleDelete = async () => {
-    if (
-      !window.confirm('آیا مطمئنید که می‌خواهید این آیتم را حذف کنید؟')
-    ) {
-      return;
-    }
-
-    setIsLoading(true);
-
-    try {
-      const nextItems = menuItems.filter((i) => i.id !== itemId);
-      setMenuItems(nextItems);
-      toast.success('آیتم با موفقیت حذف شد');
-      navigate(`${base}/x9q-vault-71-admin-panel/menu`);
-    } catch (error) {
-      toast.error('خطا در حذف آیتم');
       console.error(error);
     } finally {
       setIsLoading(false);
@@ -105,16 +65,6 @@ export function AdminEditItemPage() {
       navigate(`${base}/x9q-vault-71-admin-panel/menu`);
     }
   };
-
-  if (!item) {
-    return (
-      <main className="min-h-[100dvh] flex items-center justify-center bg-background" dir="rtl">
-        <div className="text-center">
-          <p className="text-muted-foreground">آیتم یافت نشد</p>
-        </div>
-      </main>
-    );
-  }
 
   return (
     <main className="min-h-[100dvh] bg-background text-foreground" dir="rtl">
@@ -131,8 +81,7 @@ export function AdminEditItemPage() {
             <p className="text-xs font-bold uppercase tracking-[0.18em] text-muted-foreground">
               YOLO Admin
             </p>
-            <h1 className="text-xl font-black">ویرایش آیتم</h1>
-            <p className="text-xs text-muted-foreground mt-1">{item.name}</p>
+            <h1 className="text-xl font-black">ایجاد آیتم جدید</h1>
           </div>
         </header>
 
@@ -144,9 +93,8 @@ export function AdminEditItemPage() {
           isLoading={isLoading}
           onUpdate={updateField}
           onSave={handleSave}
-          onDelete={handleDelete}
           onCancel={handleCancel}
-          isNewItem={false}
+          isNewItem={true}
         />
       </div>
 
