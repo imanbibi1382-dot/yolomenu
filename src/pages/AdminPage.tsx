@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'wouter';
 import { Lock, Check, LogOut, Home, Coffee, Plus } from 'lucide-react';
-import { resetMenuItems, useEditableMenuItems } from '@/lib/menuStorage';
+import { resetMenuItems, useEditableMenuItems, getMenuItems } from '@/lib/menuStorage';
 import { AdminItemList } from '@/features/admin/components/AdminItemList';
 import { AdminAddItemPage } from '@/features/admin/pages/AdminAddItemPage';
 import { AdminEditItemPage } from '@/features/admin/pages/AdminEditItemPage';
@@ -152,14 +152,14 @@ export default function AdminPage() {
 }
 
 function AdminListView({ onAdd, onEdit }: { onAdd: () => void; onEdit: (id: string) => void }) {
-  const [menuItems] = useEditableMenuItems();
+  const [menuItems, setMenuItems] = useEditableMenuItems();
 
   const resetAll = () => {
     if (!window.confirm('همه تغییرات پنل حذف شود و منو به حالت اولیه برگردد؟')) {
       return;
     }
     resetMenuItems();
-    window.location.reload();
+    setMenuItems(getMenuItems());
   };
 
   return (

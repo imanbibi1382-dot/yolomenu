@@ -6,9 +6,16 @@ interface UseItemFormProps {
 }
 
 export function useItemForm({ initialItem }: UseItemFormProps) {
+  const generateId = () => {
+    if (typeof crypto !== 'undefined' && crypto.randomUUID) {
+      return crypto.randomUUID();
+    }
+    return `admin-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 15)}-${Math.random().toString(36).slice(2, 15)}`;
+  };
+
   const [values, setValues] = useState<MenuItem>(
     initialItem || {
-      id: `admin-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 7)}`,
+      id: generateId(),
       name: '',
       englishName: '',
       price: 0,

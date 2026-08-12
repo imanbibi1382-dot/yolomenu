@@ -1,6 +1,7 @@
 import { MenuItem } from '@/types';
 import { ImagePlus, X } from 'lucide-react';
 import { ChangeEvent } from 'react';
+import { toast } from 'sonner';
 
 interface ImageSectionProps {
   values: MenuItem;
@@ -8,13 +9,30 @@ interface ImageSectionProps {
 }
 
 export function ImageSection({ values, onUpdate }: ImageSectionProps) {
+  const MAX_FILE_SIZE = 500 * 1024; // 500KB
+
   const handleImageFile = (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (!file) return;
 
+    if (file.size > MAX_FILE_SIZE) {
+      toast.error(`حجم فایل نباید بیشتر از ${Math.round(MAX_FILE_SIZE / 1024)}KB باشد`);
+      event.target.value = '';
+      return;
+    }
+
+    if (!file.type.startsWith('image/')) {
+      toast.error('لطفاً فقط فایل تصویری انتخاب کنید');
+      event.target.value = '';
+      return;
+    }
+
     const reader = new FileReader();
     reader.onload = () => {
       onUpdate('image', String(reader.result));
+    };
+    reader.onerror = () => {
+      toast.error('خطا در خواندن فایل. لطفاً دوباره تلاش کنید.');
     };
     reader.readAsDataURL(file);
   };

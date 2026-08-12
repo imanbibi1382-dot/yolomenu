@@ -88,11 +88,7 @@ export function AdminItemList({ items, onEdit }: AdminItemListProps) {
             {item.badge && (
               <div className="absolute left-2 top-2 rounded-full bg-primary px-2 py-1">
                 <p className="text-xs font-bold text-yolo-white">
-                  {item.badge.type === 'bestseller'
-                    ? '🔥'
-                    : item.badge.type === 'barista'
-                      ? '☕'
-                      : '✨'}
+                  {item.badge.label}
                 </p>
               </div>
             )}
