@@ -40,12 +40,10 @@ jobs:
         env:
           PORT: 25125
           BASE_PATH: /yolomenu/
-        run: |
-          cd artifacts/yolo-menu
-          pnpm run build
+        run: pnpm run build
 
       - name: Add SPA fallback
-        run: cp artifacts/yolo-menu/dist/public/index.html artifacts/yolo-menu/dist/public/404.html
+        run: cp dist/public/index.html dist/public/404.html
 
       - name: Configure Pages
         uses: actions/configure-pages@v5
