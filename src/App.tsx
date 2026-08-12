@@ -12,24 +12,14 @@ import AdminPage from '@/pages/AdminPage';
 import NotFoundPage from '@/pages/NotFoundPage';
 
 const queryClient = new QueryClient();
-const ADMIN_HOST_PREFIX = 'x9q-vault-71';
 const ADMIN_PATH = '/x9q-vault-71-admin-panel';
 
 function Router() {
-  const isAdminHost =
-    typeof window !== 'undefined' &&
-    window.location.hostname.startsWith(ADMIN_HOST_PREFIX);
-
-  if (isAdminHost) {
-    return <AdminPage />;
-  }
-
   return (
     <Switch>
       <Route path="/" component={HomePage} />
       <Route path="/menu" component={MenuPage} />
       <Route path="/search" component={SearchPage} />
-      {/* Admin panel - single route, internal navigation handled by state */}
       <Route path={`${ADMIN_PATH}*`} component={AdminPage} />
       <Route component={NotFoundPage} />
     </Switch>
