@@ -12,11 +12,8 @@ if (Number.isNaN(port) || port <= 0) {
   throw new Error(`Invalid PORT value: "${rawPort}"`);
 }
 
-const rawBasePath = process.env.BASE_PATH;
-const basePath = typeof rawBasePath === 'string' && rawBasePath.startsWith('/') ? rawBasePath : '/yolomenu/';
-
 export default defineConfig({
-  base: basePath,
+  base: '/yolomenu/',
   plugins: [
     react(),
     tailwindcss(),

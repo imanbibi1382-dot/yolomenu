@@ -37,21 +37,18 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Build
-        env:
-          PORT: 25125
-          BASE_PATH: /yolomenu/
         run: pnpm run build
 
       - name: Add SPA fallback
         run: cp dist/public/index.html dist/public/404.html
 
-      - name: Configure Pages
+      - name: Setup Pages
         uses: actions/configure-pages@v5
 
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v4
         with:
-          path: artifacts/yolo-menu/dist/public
+          path: dist/public
 
   deploy:
     environment:

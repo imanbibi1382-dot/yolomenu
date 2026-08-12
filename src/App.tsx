@@ -16,13 +16,15 @@ const ADMIN_PATH = '/x9q-vault-71-admin-panel';
 
 function Router() {
   return (
-    <Switch>
-      <Route path="/" component={HomePage} />
-      <Route path="/menu" component={MenuPage} />
-      <Route path="/search" component={SearchPage} />
-      <Route path={`${ADMIN_PATH}*`} component={AdminPage} />
-      <Route component={NotFoundPage} />
-    </Switch>
+    <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, '')}>
+      <Switch>
+        <Route path="/" component={HomePage} />
+        <Route path="/menu" component={MenuPage} />
+        <Route path="/search" component={SearchPage} />
+        <Route path={`${ADMIN_PATH}*`} component={AdminPage} />
+        <Route component={NotFoundPage} />
+      </Switch>
+    </WouterRouter>
   );
 }
 
@@ -31,9 +33,7 @@ function App() {
     <ThemeProvider defaultTheme="system" storageKey="yolo-theme">
       <QueryClientProvider client={queryClient}>
         <TooltipProvider>
-          <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, '')}>
-            <Router />
-          </WouterRouter>
+          <Router />
           <Toaster />
           <SonnerToaster position="top-center" />
         </TooltipProvider>
