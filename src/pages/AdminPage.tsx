@@ -96,13 +96,7 @@ function LoginScreen({ onLogin, error }: { onLogin: (pin: string) => void; error
 }
 
 export default function AdminPage() {
-  const [unlocked, setUnlocked] = useState(() => {
-    try {
-      return window.localStorage.getItem('yolo-admin-unlocked') === 'true';
-    } catch {
-      return false;
-    }
-  });
+  const [unlocked, setUnlocked] = useState(false);
   const [pinError, setPinError] = useState('');
   const [view, setView] = useState<AdminView>('list');
   const [editingId, setEditingId] = useState<string | null>(null);
@@ -112,17 +106,11 @@ export default function AdminPage() {
       setPinError('رمز ورود درست نیست.');
       return;
     }
-    try {
-      window.localStorage.setItem('yolo-admin-unlocked', 'true');
-    } catch {}
     setPinError('');
     setUnlocked(true);
   };
 
   const handleLogout = () => {
-    try {
-      window.localStorage.removeItem('yolo-admin-unlocked');
-    } catch {}
     setUnlocked(false);
     setView('list');
     setEditingId(null);
